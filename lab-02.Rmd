@@ -92,7 +92,12 @@ plastic_data_all %>% count(region)
 
 ```{r Ex2, message = FALSE}
 # Write your code here to answer exercise 2
-
+plastic_data_all %>%
+  mutate(
+    total_mismanage_plastic = mismanaged_plastic * population
+  ) %>%
+  group_by(region) %>%
+  summarise(meanp = mean(total_mismanage_plastic))
 
 
 ```
@@ -102,17 +107,25 @@ plastic_data_all %>% count(region)
 
 ```{r Ex3, message = FALSE}
 # Write your code here to answer exercise 3
+plastic_data_all %>%
+  drop_na() %>%
+  mutate(pct_mismanaged_plastic_ocean =
+            (mismanaged_plastic_ocean/mismanaged_plastic)) %>%
+  group_by(region) %>%
+    summarise(med = median(pct_mismanaged_plastic_ocean))
+   
 
-
-
-```
+``` 
 
 
 ### Ex 4.
 
 ```{r Ex4, message = FALSE}
 # Write your code here to answer exercise 4
-
-
+plastic_data_all %>%
+  rename(pop = population) %>%
+  rename(oceanp = mismanaged_plastic_ocean) %>%
+  rename(p = mismanaged_plastic) %>%
+  mutate(region = str_replace_all(region, "Latin America and The Caribbean", "LAC"))
 
 ```
